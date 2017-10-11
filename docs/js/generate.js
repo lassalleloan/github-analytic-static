@@ -19,7 +19,7 @@ $(document).ready(function () {
 
             // Add dynamically all the repos to the table
             for (let i = 0; i < object.length; i++) {
-                $("table").append(`<tr><td id="name">${object[i].name}</td><td id="nb_issues">${object[i].nb_issues}</td></tr>`);
+                $("table").append(`<tr><td id="name">${object[i].name}</td><td id="nb_repos">${object[i].nb_issues}</td></tr>`);
             }
         }
     };
