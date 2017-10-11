@@ -21,9 +21,6 @@ $(document).ready(function () {
             for (let i = 0; i < object.length; i++) {
                 $("table").append(`<tr><td id="name">${object[i].name}</td><td id="nb_issues">${object[i].nb_issues}</td></tr>`);
             }
-
-            // Call the drawChart function to draw the chart with de acquired data
-            drawChart(object);
         }
     };
 
