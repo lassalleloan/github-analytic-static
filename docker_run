@@ -1,0 +1,32 @@
+#!/bin/bash
+
+HOST="192.168.99.100"
+
+if [ -z ${WINDIR+x} ]
+then
+    BROWSER=xdg-open
+else 
+    BROWSER=start
+fi
+
+function stop_all {
+    echo "Stopping all launched container"
+    docker kill $(docker ps -aq)
+    docker rm $(docker ps -aq)
+}
+
+function docker_run {
+    local site_port=8080
+    
+    echo "Run ocker infrastructure"
+    
+    docker build -t php/php ./images/php
+    docker run -d --name php -p 8080:80 php/php
+    $BROWSER "http://$HOST:$site_port/"
+}
+
+# Main
+cp -r ./docs/ ./images/php/content
+docker_run
+read -p "Press any key to close all docker container ..."
+stop_all
