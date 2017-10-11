@@ -18,8 +18,8 @@ $(document).ready(function () {
             let object = xhttp.response;
 
             // Add dynamically all the repos to the table
-            for (let i = 0; i < object.length; i++) {
-                $("table").append(`<tr><td id="name">${object[i].name}</td><td id="nb_repos">${object[i].nb_repos}</td></tr>`);
+            for (let i = 0; i < object.length; ++i) {
+                $("table").append(`<tr><td>${object[i].name}</td><td>${object[i].nb_repos}</td></tr>`);
             }
         }
     };
