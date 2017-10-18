@@ -26,7 +26,7 @@ function docker_run {
 }
 
 # Main
-cp -r ./docs/. ./images/php/content/
+yes | cp -rf ./docs/. ./images/php/content/
 docker_run
 read -p "Press any key to close all docker container ..."
 stop_all
