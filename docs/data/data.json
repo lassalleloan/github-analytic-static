@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "name": "Apple",
+    "name": "apple",
     "repos": [
       {
         "name": "repos_1",
@@ -45,7 +45,7 @@
   },
   {
     "id": 2,
-    "name": "Citrix",
+    "name": "citrix",
     "repos": [
       {
         "name": "repos_1",
@@ -127,7 +127,7 @@
   },
   {
     "id": 3,
-    "name": "D3",
+    "name": "d3",
     "repos": [
       {
         "name": "repos_1",
@@ -247,7 +247,7 @@
   },
   {
     "id": 4,
-    "name": "Heroku",
+    "name": "heroku",
     "repos": [
       {
         "name": "repos_1",
@@ -601,7 +601,7 @@
   },
   {
     "id": 6,
-    "name": "Nmap",
+    "name": "nmap",
     "repos": [
       {
         "name": "repos_1",
@@ -1107,7 +1107,7 @@
   },
   {
     "id": 8,
-    "name": "PayPal",
+    "name": "paypal",
     "repos": [
       {
         "name": "repos_1",
@@ -1417,7 +1417,7 @@
   },
   {
     "id": 9,
-    "name": "Qubes OS",
+    "name": "QubesOS",
     "repos": [
       {
         "name": "repos_1",
@@ -1765,7 +1765,7 @@
   },
   {
     "id": 10,
-    "name": "VMware",
+    "name": "vmware",
     "repos": [
       {
         "name": "repos_1",
