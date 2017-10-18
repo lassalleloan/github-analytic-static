@@ -7,37 +7,48 @@
         "name": "repos_1",
         "languages": [
           {
-            "c": 123
+            "name": "c",
+            "bytes": 123
           },
           {
-            "cpp": 456
+            "name": "cpp",
+            "bytes": 456
           },
           {
-            "csharp": 789
+            "name": "csharp",
+            "bytes": 789
           },
           {
-            "java": 987
+            "name": "java",
+            "bytes": 987
           },
           {
-            "javascript": 654
+            "name": "javascript",
+            "bytes": 654
           },
           {
-            "html": 321
+            "name": "html",
+            "bytes": 321
           },
           {
-            "pearl": 741
+            "name": "pearl",
+            "bytes": 741
           },
           {
-            "php": 852
+            "name": "php",
+            "bytes": 852
           },
           {
-            "pyhton": 963
+            "name": "pyhton",
+            "bytes": 963
           },
           {
-            "rust": 369
+            "name": "rust",
+            "bytes": 369
           },
           {
-            "swift": 258
+            "name": "swift",
+            "bytes": 258
           }
         ]
       }
