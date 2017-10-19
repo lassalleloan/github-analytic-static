@@ -12,69 +12,180 @@ function changeOrganisationName(organisationName) {
             if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
                 let object = xhttp.response;
 
-                generateChart();
+                let organisation = getOrganisation(object, organisationName);
+                let repos = getRepos(organisation);
 
-                let div_table = document.getElementById('div-table');
-                div_table.innerHTML = "";
+                $('#canvas-bar-chart').remove();
+                $('#div-bar-chart').append('<canvas id="canvas-bar-chart"><canvas>');
 
-                let table = document.createElement('table');
-                table.className = "table";
-
-                let tr1 = table.appendChild(table.appendChild(document.createElement('thead')).appendChild(document.createElement('tr')));
-                let th1 = tr1.appendChild(document.createElement('th'));
-                th1.style.textAlign = "center";
-                th1.appendChild(document.createTextNode('Organisation\'s Name'));
-
-                let th2 = tr1.appendChild(document.createElement('th'));
-                th2.style.textAlign = "center";
-                th2.appendChild(document.createTextNode('# Repos'));
-
-                for (let i = 0; i < object.length; ++i) {
-                    let tr2 = table.appendChild(document.createElement('tr'));
-
-                    tr2.appendChild(document.createElement('td')).appendChild(document.createTextNode(object[i].name));
-                    tr2.appendChild(document.createElement('td')).appendChild(document.createTextNode(object[i].nb_repos));
-                }
-
-                div_table.appendChild(table);
+                generateChart(repos);
+                generateTable(organisation);
             }
         };
     });
 }
 
-function generateChart() {
+function getOrganisation(object, organisationName) {
+    for (let i = 0; i < object.length; ++i) {
+        if (object[i].name === organisationName) {
+            return object[i];
+        }
+    }
+}
+
+function getRepos(organisation) {
+    let repos = [];
+
+    for (let i = 0; i < organisation.repos.length; ++i) {
+        repos.push(organisation.repos[i]);
+    }
+
+    return repos;
+}
+
+function getReposName(repos) {
+    let reposName = [];
+
+    for (let i = 0; i < repos.length; ++i) {
+        reposName.push(repos[i].name);
+    }
+
+    return reposName;
+}
+
+function getLanguages(repo) {
+    let languages = [];
+
+    for (let i = 0; i < repo.languages.length; ++i) {
+        languages.push(repo.languages[i]);
+    }
+
+    return languages;
+}
+
+function getLanguage(repos, language) {
+    let bytes = [];
+
+    for (let i = 0; i < repos.length; ++i) {
+        for (let j = 0; j < repos[i].languages.length; ++j) {
+            if (repos[i].languages[j].name === language)
+                bytes.push(repos[i].languages[j].bytes);
+        }
+    }
+
+    return bytes;
+}
+
+function generateChart(repos) {
 
     // Return with commas in between
     let numberWithCommas = function (x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     };
 
-    let dataPack1 = [21000, 22000, 26000, 35000, 55000, 55000, 56000, 59000, 60000, 61000, 60100, 62000];
-    let dataPack2 = [1000, 1200, 1300, 1400, 1060, 2030, 2070, 4000, 4100, 4020, 4030, 4050];
-    let dates = ["May 1", "May 2", "May 3", "May 4", "May 5", "May 6",
-        "May 7", "May 8", "May 9", "May 10", "May 11", "May 12"];
+    let c = getLanguage(repos, "c");
+    let cpp = getLanguage(repos, "cpp");
+    let csharp = getLanguage(repos, "csharp");
+    let java = getLanguage(repos, "java");
+    let javascript = getLanguage(repos, "javascript");
+    let html = getLanguage(repos, "html");
+    let pearl = getLanguage(repos, "pearl");
+    let php = getLanguage(repos, "php");
+    let pyhton = getLanguage(repos, "pyhton");
+    let rust = getLanguage(repos, "rust");
+    let swift = getLanguage(repos, "swift");
 
-    // Chart.defaults.global.elements.rectangle.backgroundColor = '#FF0000';
-
-    let bar_ctx = document.getElementById('div-bar-chart');
+    let bar_ctx = document.getElementById('canvas-bar-chart');
     let bar_chart = new Chart(bar_ctx, {
             type: 'bar',
             data: {
-                labels: dates,
+                labels: getReposName(repos),
                 datasets: [
                     {
-                        label: 'Bowser',
-                        data: dataPack1,
-                        backgroundColor: "rgba(55, 160, 225, 0.7)",
-                        hoverBackgroundColor: "rgba(55, 160, 225, 0.7)",
+                        label: 'C',
+                        data: c,
+                        backgroundColor: color = getRandomColor(),
+                        hoverBackgroundColor: color,
                         hoverBorderWidth: 2,
                         hoverBorderColor: 'lightgrey'
                     },
                     {
-                        label: 'Mario',
-                        data: dataPack2,
-                        backgroundColor: "rgba(225, 58, 55, 0.7)",
-                        hoverBackgroundColor: "rgba(225, 58, 55, 0.7)",
+                        label: 'C++',
+                        data: cpp,
+                        backgroundColor: color = getRandomColor(),
+                        hoverBackgroundColor: color,
+                        hoverBorderWidth: 2,
+                        hoverBorderColor: 'lightgrey'
+                    },
+                    {
+                        label: 'C#',
+                        data: csharp,
+                        backgroundColor: color = getRandomColor(),
+                        hoverBackgroundColor: color,
+                        hoverBorderWidth: 2,
+                        hoverBorderColor: 'lightgrey'
+                    },
+                    {
+                        label: 'Java',
+                        data: java,
+                        backgroundColor: color = getRandomColor(),
+                        hoverBackgroundColor: color,
+                        hoverBorderWidth: 2,
+                        hoverBorderColor: 'lightgrey'
+                    },
+                    {
+                        label: 'Javascript',
+                        data: javascript,
+                        backgroundColor: color = getRandomColor(),
+                        hoverBackgroundColor: color,
+                        hoverBorderWidth: 2,
+                        hoverBorderColor: 'lightgrey'
+                    },
+                    {
+                        label: 'HTML',
+                        data: html,
+                        backgroundColor: color = getRandomColor(),
+                        hoverBackgroundColor: color,
+                        hoverBorderWidth: 2,
+                        hoverBorderColor: 'lightgrey'
+                    },
+                    {
+                        label: 'Pearl',
+                        data: pearl,
+                        backgroundColor: color = getRandomColor(),
+                        hoverBackgroundColor: color,
+                        hoverBorderWidth: 2,
+                        hoverBorderColor: 'lightgrey'
+                    },
+                    {
+                        label: 'PHP',
+                        data: php,
+                        backgroundColor: color = getRandomColor(),
+                        hoverBackgroundColor: color,
+                        hoverBorderWidth: 2,
+                        hoverBorderColor: 'lightgrey'
+                    },
+                    {
+                        label: 'Python',
+                        data: pyhton,
+                        backgroundColor: color = getRandomColor(),
+                        hoverBackgroundColor: color,
+                        hoverBorderWidth: 2,
+                        hoverBorderColor: 'lightgrey'
+                    },
+                    {
+                        label: 'Rust',
+                        data: rust,
+                        backgroundColor: color = getRandomColor(),
+                        hoverBackgroundColor: color,
+                        hoverBorderWidth: 2,
+                        hoverBorderColor: 'lightgrey'
+                    },
+                    {
+                        label: 'Swift',
+                        data: swift,
+                        backgroundColor: color = getRandomColor(),
+                        hoverBackgroundColor: color,
                         hoverBorderWidth: 2,
                         hoverBorderColor: 'lightgrey'
                     },
@@ -96,6 +207,10 @@ function generateChart() {
                     xAxes: [{
                         stacked: true,
                         gridLines: {display: false},
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Name of repos'
+                        }
                     }],
                     yAxes: [{
                         stacked: true,
@@ -104,10 +219,57 @@ function generateChart() {
                                 return numberWithCommas(value);
                             },
                         },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Proportion of language'
+                        }
                     }],
                 }, // scales
-                legend: {display: true}
+                legend: {
+                    display: true
+                }
             } // options
         }
     );
+}
+
+function getRandomColor() {
+    return "#" + ((1 << 24) * Math.random() | 0).toString(16);
+}
+
+function generateTable(organisation) {
+    let repos = getRepos(organisation);
+
+    let div_table = document.getElementById('div-table');
+    div_table.innerHTML = "";
+
+    let table = document.createElement('table');
+    table.className = "table";
+
+    let tr1 = table.appendChild(table.appendChild(document.createElement('thead')).appendChild(document.createElement('tr')));
+    let th1 = tr1.appendChild(document.createElement('th'));
+    th1.style.textAlign = "center";
+    th1.appendChild(document.createTextNode('Repo\'s Name'));
+
+    let languages = getLanguages(repos[0]);
+
+    for (let j = 0; j < languages.length; ++j) {
+        let th2 = tr1.appendChild(document.createElement('th'));
+        th2.style.textAlign = "center";
+        th2.appendChild(document.createTextNode(languages[j].name));
+    }
+
+    for (let i = 0; i < repos.length; ++i) {
+        let tr2 = table.appendChild(document.createElement('tr'));
+
+        tr2.appendChild(document.createElement('td')).appendChild(document.createTextNode(repos[i].name));
+
+        let languages = getLanguages(repos[i]);
+
+        for (let j = 0; j < languages.length; ++j) {
+            tr2.appendChild(document.createElement('td')).appendChild(document.createTextNode(languages[j].bytes));
+        }
+    }
+
+    div_table.appendChild(table);
 }
