@@ -16,10 +16,6 @@
               "bytes": 456
             },
             {
-              "name": "csharp",
-              "bytes": 789
-            },
-            {
               "name": "java",
               "bytes": 987
             },
@@ -36,16 +32,8 @@
               "bytes": 741
             },
             {
-              "name": "php",
-              "bytes": 852
-            },
-            {
               "name": "pyhton",
               "bytes": 963
-            },
-            {
-              "name": "rust",
-              "bytes": 369
             },
             {
               "name": "swift",
@@ -79,20 +67,8 @@
               "bytes": 987
             },
             {
-              "name": "javascript",
-              "bytes": 654
-            },
-            {
-              "name": "html",
-              "bytes": 321
-            },
-            {
               "name": "pearl",
               "bytes": 741
-            },
-            {
-              "name": "php",
-              "bytes": 852
             },
             {
               "name": "pyhton",
@@ -101,20 +77,12 @@
             {
               "name": "rust",
               "bytes": 369
-            },
-            {
-              "name": "swift",
-              "bytes": 258
             }
           ]
         },
         {
           "name": "repos_2",
           "languages": [
-            {
-              "name": "c",
-              "bytes": 123
-            },
             {
               "name": "cpp",
               "bytes": 456
@@ -124,10 +92,6 @@
               "bytes": 789
             },
             {
-              "name": "java",
-              "bytes": 987
-            },
-            {
               "name": "javascript",
               "bytes": 654
             },
@@ -136,20 +100,12 @@
               "bytes": 321
             },
             {
-              "name": "pearl",
-              "bytes": 741
-            },
-            {
               "name": "php",
               "bytes": 852
             },
             {
               "name": "pyhton",
               "bytes": 963
-            },
-            {
-              "name": "rust",
-              "bytes": 369
             },
             {
               "name": "swift",
@@ -167,48 +123,12 @@
           "name": "repos_1",
           "languages": [
             {
-              "name": "c",
-              "bytes": 123
-            },
-            {
-              "name": "cpp",
-              "bytes": 456
-            },
-            {
-              "name": "csharp",
-              "bytes": 789
-            },
-            {
               "name": "java",
               "bytes": 987
             },
             {
               "name": "javascript",
               "bytes": 654
-            },
-            {
-              "name": "html",
-              "bytes": 321
-            },
-            {
-              "name": "pearl",
-              "bytes": 741
-            },
-            {
-              "name": "php",
-              "bytes": 852
-            },
-            {
-              "name": "pyhton",
-              "bytes": 963
-            },
-            {
-              "name": "rust",
-              "bytes": 369
-            },
-            {
-              "name": "swift",
-              "bytes": 258
             }
           ]
         },
@@ -216,30 +136,6 @@
           "name": "repos_2",
           "languages": [
             {
-              "name": "c",
-              "bytes": 123
-            },
-            {
-              "name": "cpp",
-              "bytes": 456
-            },
-            {
-              "name": "csharp",
-              "bytes": 789
-            },
-            {
-              "name": "java",
-              "bytes": 987
-            },
-            {
-              "name": "javascript",
-              "bytes": 654
-            },
-            {
-              "name": "html",
-              "bytes": 321
-            },
-            {
               "name": "pearl",
               "bytes": 741
             },
@@ -254,10 +150,6 @@
             {
               "name": "rust",
               "bytes": 369
-            },
-            {
-              "name": "swift",
-              "bytes": 258
             }
           ]
         },
