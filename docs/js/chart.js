@@ -58,8 +58,6 @@ function BarChartStacked (xAxesLabel, xAxesData, yAxesLabel, data) {
       randomColors.push(randomColor())
     }
 
-    console.log(randomColors);
-
     return randomColors
   };
 
