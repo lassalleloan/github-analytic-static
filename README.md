@@ -20,9 +20,7 @@ In order to use a local client server, you can proceed with the following steps 
 2) Install required dependencies with npm install (when in the repo's folder)
 3) In the repo's root folder, run "http-server ." to run the server locally.
 
-The client will still fetch data from :
-
-https://raw.githubusercontent.com/lassalleloan/githubAnalytic-static/master/docs/data/data.json
+The client will still fetch data from [here](https://raw.githubusercontent.com/lassalleloan/githubAnalytic-static/master/docs/data/data.json "Data")
 
 If you want to change the source of the data, please update line 18 in the "generate.js" file. Make sure to have the appropriate data format.
 
