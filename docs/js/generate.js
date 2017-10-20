@@ -8,7 +8,7 @@
 /* eslint-disable semi */
 
 // eslint-disable-next-line no-unused-vars
-function changeOrganisationName(organisationName) {
+function changeOrganisationName (organisationName) {
   // eslint-disable-next-line no-undef
   $(document).ready(function () {
     /* global XMLHttpRequest */
@@ -41,7 +41,7 @@ function changeOrganisationName(organisationName) {
   })
 }
 
-function generateTable(reposName, languagesName, languagesBytes) {
+function generateTable (reposName, languagesName, languagesBytes) {
   let divTable = document.getElementById('div-table');
   divTable.innerHTML = '';
 

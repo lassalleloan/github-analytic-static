@@ -8,7 +8,7 @@
 /* eslint-disable semi */
 
 // eslint-disable-next-line no-unused-vars
-function BarChartStacked(xAxesLabel, xAxesData, yAxesLabel, data) {
+function BarChartStacked (xAxesLabel, xAxesData, yAxesLabel, data) {
   this._xAxesLabel = xAxesLabel;
   this._xAxesData = xAxesData;
   this._yAxesLabel = yAxesLabel;

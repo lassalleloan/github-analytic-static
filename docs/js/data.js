@@ -8,7 +8,7 @@
 /* eslint-disable semi */
 
 // eslint-disable-next-line no-unused-vars
-function Data(organisationName, xhttpResponse) {
+function Data (organisationName, xhttpResponse) {
   this._organisationName = organisationName;
   this._organisations = xhttpResponse.organisations;
 
