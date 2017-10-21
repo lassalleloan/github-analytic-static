@@ -57,25 +57,46 @@
 <br>
 <br>
 
+<!-- Information message during an action -->
+<div class="container">
+    <div class="row">
+        <div id="div-message" class="mx-auto">
+        </div>
+    </div>
+</div>
+
 <div class="container">
     <div class="row">
         <div class="col-lg-10 mx-auto text-center">
-            <label>
-                <select onchange="changeOrganisationName(this.value)">
-                    <option value="" selected disabled hidden>Select an organisation</option>
-                    <option value="apple">Apple</option>
-                    <option value="citrix">Citrix</option>
-                    <option value="d3">D3</option>
-                    <option value="heroku">Heroku</option>
-                    <option value="JetBrains">JetBrains</option>
-                    <option value="nmap">Nmap</option>
-                    <option value="Microsoft">Microsoft</option>
-                    <option value="paypal">PayPal</option>
-                    <option value="QubesOS">Qubes OS</option>
-                    <option value="qubs">Queen's University Biological Station</option>
-                    <option value="vmware">VMware</option>
-                </select>
-            </label>
+            <input id="organisationLogin" type="text" list="organisationLoginList" placeholder="Select an organisation"
+                   required>
+            <datalist id="organisationLoginList">
+                <option value="apple">Apple</option>
+                <option value="citrix">Citrix</option>
+                <option value="d3">D3</option>
+                <option value="heroku">Heroku</option>
+                <option value="JetBrains">JetBrains</option>
+                <option value="nmap">Nmap</option>
+                <option value="Microsoft">Microsoft</option>
+                <option value="paypal">PayPal</option>
+                <option value="QubesOS">Qubes OS</option>
+                <option value="qubs">Queen's University Biological Station</option>
+                <option value="vmware">VMware</option>
+            </datalist>
+            <button onclick="changeOrganisationName(document.getElementById('organisationLogin').value)">Go !</button>
+        </div>
+    </div>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+
+<div>
+    <div>
+        <div id="div-bar-chart" class="text-center">
+            <canvas id="canvas-bar-chart" width="100%"></canvas>
         </div>
     </div>
 </div>
@@ -87,20 +108,7 @@
 
 <div class="container">
     <div class="row">
-        <div id="div-bar-chart" class="col-lg-10 mx-auto text-center">
-            <canvas id="canvas-bar-chart"></canvas>
-        </div>
-    </div>
-</div>
-
-<br>
-<br>
-<br>
-<br>
-
-<div class="container">
-    <div class="row">
-        <div id="div-table" class="col-lg-10 mx-auto text-center">
+        <div id="div-infos" class="col-lg-10 mx-auto text-center">
         </div>
     </div>
 </div>
@@ -134,7 +142,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.5.2/randomColor.min.js"></script>
-x
 
 <script src="js/generate.js"></script>
 <script src="js/data.js"></script>

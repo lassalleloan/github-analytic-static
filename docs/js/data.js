@@ -8,102 +8,204 @@
 /* eslint-disable semi */
 
 // eslint-disable-next-line no-unused-vars
-function Data (organisationName, xhttpResponse) {
-  this._organisationName = organisationName;
-  this._organisations = xhttpResponse.organisations;
+function Organisation (xhttpResponse) {
+  this._login = xhttpResponse.login;
+  this._name = xhttpResponse.name;
+  this._description = xhttpResponse.description;
 
-  // Organisation object
-  this.organisation = (function () {
-    for (let organisation of this._organisations) {
-      if (this._organisationName === organisation.name) {
-        return organisation
-      }
-    }
-  }.call(this));
-
-  // Repos array
-  this._repos = this.organisation.repos;
+  const createdAt = new Date(xhttpResponse.created_at);
+  this._createdAt = (createdAt.getMonth() + 1) + '/' + createdAt.getDate() + '/' + createdAt.getFullYear();
 
   // Return true if value already exist
-  let unique = function (value, index, self) {
-    return self.indexOf(value) === index
+  const unique = function (value, index, self) {
+    return self.indexOf(value) === index;
   };
+
+  const repos = xhttpResponse.repos;
 
   // Repos name array
   this._reposName = (function () {
-    let reposName = [];
+    const reposName = [];
 
-    for (let repo of this._repos) {
-      reposName.push(repo.name)
+    for (const repo of repos) {
+      reposName.push(repo.name);
     }
 
-    return reposName.filter(unique).sort()
+    return reposName.filter(unique).sort();
+  }());
+
+  this._reposLength = repos.length;
+
+  // Gets bytes proportions of language in a repo
+  const getLanguagesBytes = function (repo, languageName) {
+    for (const language of repo.languages) {
+      if (languageName === language.name) {
+        return language.nbrBytes;
+      }
+    }
+  };
+
+  this._reposBytesSum = (function () {
+    const bytes = {};
+
+    for (const repoName of this._reposName) {
+      bytes[repoName] = 0;
+    }
+
+    for (const repo of repos) {
+      for (const language of repo.languages) {
+        bytes[repo.name] += getLanguagesBytes(repo, language.name);
+      }
+    }
+
+    return bytes
+  }.call(this));
+
+  this._repoBiggestBytes = (function () {
+    let repoBiggestBytes = {
+      name: '',
+      html_url: '',
+      created_at: '',
+      nbrBytes: 0
+    };
+
+    for (const repo of repos) {
+      if (this._reposBytesSum[repo.name] > repoBiggestBytes.nbrBytes) {
+        repoBiggestBytes = {
+          name: repo.name,
+          html_url: repo.html_url,
+          created_at: repo.created_at,
+          nbrBytes: this._reposBytesSum[repo.name]
+        };
+      }
+    }
+
+    return repoBiggestBytes;
+  }.call(this));
+
+  this._repoSmallestBytes = (function () {
+    let repoSmallestBytes = this._repoBiggestBytes;
+
+    for (const repo of repos) {
+      if (this._reposBytesSum[repo.name] < repoSmallestBytes.nbrBytes) {
+        repoSmallestBytes = {
+          name: repo.name,
+          html_url: repo.html_url,
+          created_at: repo.created_at,
+          nbrBytes: this._reposBytesSum[repo.name]
+        };
+      }
+    }
+
+    return repoSmallestBytes;
   }.call(this));
 
   // Languages array
-  this._languages = (function () {
-    let languages = [];
+  const languages = (function () {
+    const languages = [];
 
-    for (let repo of this._repos) {
-      for (let language of repo.languages) {
-        languages.push(language)
+    for (const repo of repos) {
+      for (const language of repo.languages) {
+        languages.push(language);
       }
     }
 
-    return languages
-  }.call(this));
+    return languages;
+  }());
 
   // Languages name array
   this._languagesName = (function () {
-    let languagesName = [];
+    const languagesName = [];
 
-    for (let language of this._languages) {
-      languagesName.push(language.name)
+    for (const language of languages) {
+      languagesName.push(language.name);
     }
 
-    return languagesName.filter(unique).sort()
+    return languagesName.filter(unique).sort();
   }.call(this));
 
+  this._languagesNameLength = this._languagesName.length;
+
   // Gets languages name array of a repo
-  this.getLanguagesName = function (repo) {
-    let languagesName = [];
+  const getLanguagesName = function (repo) {
+    const languagesName = [];
 
-    for (let language of repo.languages) {
-      languagesName.push(language.name)
+    for (const language of repo.languages) {
+      languagesName.push(language.name);
     }
 
-    return languagesName.filter(unique)
-  };
-
-  // Gets bytes proportions of language in a repo
-  this.getLanguagesBytes = function (repo, languageName) {
-    for (let language of repo.languages) {
-      if (languageName === language.name) {
-        return language.bytes
-      }
-    }
+    return languagesName.filter(unique).sort();
   };
 
   // Bytes proportions of languages
   this._languagesBytes = (function () {
-    let bytes = {};
+    const bytes = {};
 
-    for (let languageName of this._languagesName) {
-      bytes[languageName] = []
+    for (const languageName of this._languagesName) {
+      bytes[languageName] = [];
     }
 
-    for (let repo of this._repos) {
-      for (let languageName of this._languagesName) {
-        if (this.getLanguagesName(repo).contains(languageName)) {
-          bytes[languageName].push(this.getLanguagesBytes(repo, languageName))
+    for (const repo of repos) {
+      for (const languageName of this._languagesName) {
+        if (getLanguagesName(repo).contains(languageName)) {
+          bytes[languageName].push(getLanguagesBytes(repo, languageName));
         } else {
-          bytes[languageName].push(0)
+          bytes[languageName].push(0);
         }
       }
     }
 
     return bytes
-  }.call(this))
+  }.call(this));
+
+  this._languagesBytesSum = (function () {
+    const bytesSum = {};
+
+    for (const languageName of this._languagesName) {
+      bytesSum[languageName] = 0;
+    }
+
+    for (const languageName of this._languagesName) {
+      for (const bytes of this._languagesBytes[languageName]) {
+        bytesSum[languageName] += bytes;
+      }
+    }
+
+    return bytesSum;
+  }.call(this));
+
+  this._languageBiggestBytes = (function () {
+    let languageBiggestBytes = {
+      name: '',
+      nbrBytes: 0
+    };
+
+    for (const languageName of this._languagesName) {
+      if (this._languagesBytesSum[languageName] > languageBiggestBytes.nbrBytes) {
+        languageBiggestBytes = {
+          name: languageName,
+          nbrBytes: this._languagesBytesSum[languageName]
+        };
+      }
+    }
+
+    return languageBiggestBytes;
+  }.call(this));
+
+  this._languageSmallestBytes = (function () {
+    let languageSmallestMin = this._languageBiggestBytes;
+
+    for (const languageName of this._languagesName) {
+      if (this._languagesBytesSum[languageName] < languageSmallestMin.nbrBytes) {
+        languageSmallestMin = {
+          name: languageName,
+          nbrBytes: this._languagesBytesSum[languageName]
+        };
+      }
+    }
+
+    return languageSmallestMin;
+  }.call(this));
 }
 
 // eslint-disable-next-line no-extend-native
@@ -112,9 +214,9 @@ Array.prototype.contains = function (obj) {
 
   while (i--) {
     if (this[i] === obj) {
-      return true
+      return true;
     }
   }
 
-  return false
+  return false;
 };

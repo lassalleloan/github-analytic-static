@@ -44,11 +44,6 @@ function BarChartStacked (xAxesLabel, xAxesData, yAxesLabel, data) {
     new Chart(document.getElementById(context).getContext('2d'), this.barChartStacked)
   };
 
-  // Return with commas in between
-  let numberWithCommas = function (x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-  };
-
   // Return random colors array
   let getRandomColors = function (size) {
     let randomColors = [];
@@ -93,8 +88,8 @@ function BarChartStacked (xAxesLabel, xAxesData, yAxesLabel, data) {
         mode: 'label',
         callbacks: {
           label: function (tooltipItem, data) {
-            if (numberWithCommas(tooltipItem.yLabel) > 0) {
-              return data.datasets[tooltipItem.datasetIndex].label + ': ' + numberWithCommas(tooltipItem.yLabel)
+            if (tooltipItem.yLabel > 0) {
+              return data.datasets[tooltipItem.datasetIndex].label + ': ' + tooltipItem.yLabel
             }
           }
         }
@@ -112,7 +107,7 @@ function BarChartStacked (xAxesLabel, xAxesData, yAxesLabel, data) {
           stacked: true,
           ticks: {
             callback: function (value) {
-              return numberWithCommas(value)
+              return value
             }
           },
           scaleLabel: {
