@@ -15,7 +15,7 @@ function changeOrganisationName (organisationLogin) {
       /* global XMLHttpRequest */
       const xhttp = new XMLHttpRequest();
 
-      xhttp.open('GET', 'localhost:7410/agent?organization=' + organisationLogin + '&repository=githubAnalytic-agent');
+      xhttp.open('POST', 'localhost:7410/agent?organization=' + organisationLogin + '&repository=githubAnalytic-agent');
       xhttp.send('data');
 
       // Callback function when the state is changed
