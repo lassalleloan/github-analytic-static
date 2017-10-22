@@ -38,7 +38,7 @@ function changeOrganizationName (organizationLogin) {
     const xhttp = new XMLHttpRequest();
 
     // Ask the server to generates organization
-    xhttp.open('GET', 'https://infinite-earth-87590.herokuapp.com/agent?repository=githubAnalytic-agent&organization=' + organizationLogin);
+    xhttp.open('GET', 'https://infinite-earth-87590.herokuapp.com/agent?repository=githubAnalytic-static&organization=' + organizationLogin);
     xhttp.send();
 
     document.getElementById('p-message').innerHTML = 'Wait a minute';
@@ -93,7 +93,10 @@ function generateTable (organization) {
   table.className = 'table';
   divTable.appendChild(table);
 
+  console.log(organization._summary);
+
   for (const key in organization._summary) {
+
     if (organization._summary.hasOwnProperty(key)) {
       const tr1 = table.appendChild(document.createElement('tr'));
       tr1.appendChild(document.createElement('td')).appendChild(document.createTextNode(key));
