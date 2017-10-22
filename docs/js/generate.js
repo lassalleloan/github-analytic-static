@@ -32,28 +32,21 @@ function changeOrganizationName (organizationLogin) {
     xhttp.onreadystatechange = () => {
       if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
         if (xhttp.responseText === '/ready') {
-          // Gets organization json
-          const xhttp1 = new XMLHttpRequest();
-          xhttp1.open('GET', 'data/organization.json');
-          xhttp1.responseType = 'json';
-          xhttp1.send();
-
-          // Callback function when the state is changed
-          xhttp1.onreadystatechange = () => {
+          setTimeout(function () {
             // Gets organization json
-            const xhttp2 = new XMLHttpRequest();
-            xhttp2.open('GET', 'data/organization.json');
-            xhttp2.responseType = 'json';
-            xhttp2.send();
+            const xhttp1 = new XMLHttpRequest();
+            xhttp1.open('GET', 'data/organization.json');
+            xhttp1.responseType = 'json';
+            xhttp1.send();
 
             // Callback function when the state is changed
-            xhttp2.onreadystatechange = () => {
-              if (xhttp2.readyState === XMLHttpRequest.DONE && xhttp2.status === 200) {
+            xhttp1.onreadystatechange = () => {
+              if (xhttp1.readyState === XMLHttpRequest.DONE && xhttp1.status === 200) {
                 document.getElementById('p-message').innerHTML = '';
 
                 // Gets back organization
                 // eslint-disable-next-line
-                const organization = new Organization(xhttp2.response);
+                const organization = new Organization(xhttp1.response);
 
                 // eslint-disable-next-line
                 const barChartStacked = new BarChartStacked('Name of repos', organization._reposName, 'Number of bytes', organization._languagesBytes);
@@ -62,7 +55,7 @@ function changeOrganizationName (organizationLogin) {
                 generateTable(organization);
               }
             }
-          }
+          }, 10000);
         } else {
           // eslint-disable-next-line no-undef
           document.getElementById('p-message').innerHTML = 'The chosen organization does not exist';
