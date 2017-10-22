@@ -48,45 +48,61 @@
 <header class="header" id="top">
     <div class="text-vertical-center">
         <h1>GitHub Analytics</h1>
-        <h3>Analyse of organisation</h3>
+        <h3>Analyze of organization</h3>
+
+        <br>
+        <br>
+        <br>
+        <br>
+
+        <!-- Datalist for selection of an organization -->
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 mx-auto text-center">
+                    <input id="organisationLogin" type="text" list="organisationLoginList"
+                           placeholder="Select an organization"
+                           required>
+                    <datalist id="organisationLoginList">
+                        <option value="apple">Apple</option>
+                        <option value="citrix">Citrix</option>
+                        <option value="d3">D3</option>
+                        <option value="heroku">Heroku</option>
+                        <option value="JetBrains">JetBrains</option>
+                        <option value="nmap">Nmap</option>
+                        <option value="Microsoft">Microsoft</option>
+                        <option value="paypal">PayPal</option>
+                        <option value="QubesOS">Qubes OS</option>
+                        <option value="qubs">Queen's University Biological Station</option>
+                        <option value="vmware">VMware</option>
+                    </datalist>
+                    <button onclick="changeOrganisationName(document.getElementById('organisationLogin').value)">
+                        Analyze
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <br>
+
+        <!-- Information message during an action -->
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 mx-auto text-center">
+                    <div id="div-message" class="mx-auto">
+                        <p id="p-message" class="p-3" style="color:red"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!--<div class="progress">-->
+            <!--<div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">-->
+            <!--<span class="sr-only"></span>-->
+            <!--</div>-->
+            <!--</div>-->
+
     </div>
 </header>
-
-<br>
-<br>
-<br>
-<br>
-
-<!-- Information message during an action -->
-<div class="container">
-    <div class="row">
-        <div id="div-message" class="mx-auto">
-        </div>
-    </div>
-</div>
-
-<div class="container">
-    <div class="row">
-        <div class="col-lg-10 mx-auto text-center">
-            <input id="organisationLogin" type="text" list="organisationLoginList" placeholder="Select an organisation"
-                   required>
-            <datalist id="organisationLoginList">
-                <option value="apple">Apple</option>
-                <option value="citrix">Citrix</option>
-                <option value="d3">D3</option>
-                <option value="heroku">Heroku</option>
-                <option value="JetBrains">JetBrains</option>
-                <option value="nmap">Nmap</option>
-                <option value="Microsoft">Microsoft</option>
-                <option value="paypal">PayPal</option>
-                <option value="QubesOS">Qubes OS</option>
-                <option value="qubs">Queen's University Biological Station</option>
-                <option value="vmware">VMware</option>
-            </datalist>
-            <button onclick="changeOrganisationName(document.getElementById('organisationLogin').value)">Go !</button>
-        </div>
-    </div>
-</div>
 
 <br>
 <br>

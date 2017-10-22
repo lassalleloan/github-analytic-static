@@ -10,57 +10,73 @@
 // eslint-disable-next-line no-unused-vars
 function Organisation (xhttpResponse) {
   this._login = xhttpResponse.login;
-  this._name = xhttpResponse.name;
-  this._description = xhttpResponse.description;
+  this._name = xhttpResponse.name === null ? this._login : xhttpResponse.name;
+  this._description = xhttpResponse.description === null ? '' : xhttpResponse.description;
 
   const createdAt = new Date(xhttpResponse.created_at);
   this._createdAt = (createdAt.getMonth() + 1) + '/' + createdAt.getDate() + '/' + createdAt.getFullYear();
 
-  // Return true if value already exist
-  const unique = function (value, index, self) {
-    return self.indexOf(value) === index;
+  // Sorts by name
+  const sortName = function (a, b) {
+    if (a.name < b.name) {
+      return -1
+    }
+
+    if (a.name > b.name) {
+      return 1
+    }
+
+    return 0
   };
 
-  const repos = xhttpResponse.repos;
+  // Checks if value is unique
+  const unique = function (value, index, self) {
+    return self.indexOf(value) === index
+  };
 
-  // Repos name array
+  // Repos sorted by name
+  const repos = xhttpResponse.repos.sort(sortName);
+
+  // Name of repos
   this._reposName = (function () {
     const reposName = [];
 
     for (const repo of repos) {
-      reposName.push(repo.name);
+      reposName.push(repo.name)
     }
 
-    return reposName.filter(unique).sort();
+    return reposName
   }());
 
   this._reposLength = repos.length;
 
-  // Gets bytes proportions of language in a repo
+  // Gets number of bytes for a repo and a language
   const getLanguagesBytes = function (repo, languageName) {
     for (const language of repo.languages) {
       if (languageName === language.name) {
-        return language.nbrBytes;
+        return language.nbrBytes
       }
     }
   };
 
+  // Number of bytes by repos
   this._reposBytesSum = (function () {
     const bytes = {};
 
     for (const repoName of this._reposName) {
-      bytes[repoName] = 0;
+      bytes[repoName] = 0
     }
 
     for (const repo of repos) {
       for (const language of repo.languages) {
-        bytes[repo.name] += getLanguagesBytes(repo, language.name);
+        bytes[repo.name] += getLanguagesBytes(repo, language.name)
       }
     }
 
     return bytes
   }.call(this));
 
+  // Biggest repo by number bytes
   this._repoBiggestBytes = (function () {
     let repoBiggestBytes = {
       name: '',
@@ -76,13 +92,14 @@ function Organisation (xhttpResponse) {
           html_url: repo.html_url,
           created_at: repo.created_at,
           nbrBytes: this._reposBytesSum[repo.name]
-        };
+        }
       }
     }
 
-    return repoBiggestBytes;
+    return repoBiggestBytes
   }.call(this));
 
+  // Smallest repo by number bytes
   this._repoSmallestBytes = (function () {
     let repoSmallestBytes = this._repoBiggestBytes;
 
@@ -93,64 +110,64 @@ function Organisation (xhttpResponse) {
           html_url: repo.html_url,
           created_at: repo.created_at,
           nbrBytes: this._reposBytesSum[repo.name]
-        };
+        }
       }
     }
 
-    return repoSmallestBytes;
+    return repoSmallestBytes
   }.call(this));
 
-  // Languages array
+  // Languages sorted by name
   const languages = (function () {
     const languages = [];
 
     for (const repo of repos) {
       for (const language of repo.languages) {
-        languages.push(language);
+        languages.push(language)
       }
     }
 
-    return languages;
+    return languages.sort(sortName)
   }());
 
-  // Languages name array
+  // Name of languages
   this._languagesName = (function () {
     const languagesName = [];
 
     for (const language of languages) {
-      languagesName.push(language.name);
+      languagesName.push(language.name)
     }
 
-    return languagesName.filter(unique).sort();
+    return languagesName.filter(unique)
   }.call(this));
 
   this._languagesNameLength = this._languagesName.length;
 
-  // Gets languages name array of a repo
+  // Gets name of languages of a repo
   const getLanguagesName = function (repo) {
     const languagesName = [];
 
     for (const language of repo.languages) {
-      languagesName.push(language.name);
+      languagesName.push(language.name)
     }
 
-    return languagesName.filter(unique).sort();
+    return languagesName.sort(sortName)
   };
 
-  // Bytes proportions of languages
+  // Number of bytes by repos and languages
   this._languagesBytes = (function () {
     const bytes = {};
 
     for (const languageName of this._languagesName) {
-      bytes[languageName] = [];
+      bytes[languageName] = []
     }
 
     for (const repo of repos) {
       for (const languageName of this._languagesName) {
         if (getLanguagesName(repo).contains(languageName)) {
-          bytes[languageName].push(getLanguagesBytes(repo, languageName));
+          bytes[languageName].push(getLanguagesBytes(repo, languageName))
         } else {
-          bytes[languageName].push(0);
+          bytes[languageName].push(0)
         }
       }
     }
@@ -158,22 +175,24 @@ function Organisation (xhttpResponse) {
     return bytes
   }.call(this));
 
+  // Number of bytes by languages
   this._languagesBytesSum = (function () {
     const bytesSum = {};
 
     for (const languageName of this._languagesName) {
-      bytesSum[languageName] = 0;
+      bytesSum[languageName] = 0
     }
 
     for (const languageName of this._languagesName) {
       for (const bytes of this._languagesBytes[languageName]) {
-        bytesSum[languageName] += bytes;
+        bytesSum[languageName] += bytes
       }
     }
 
-    return bytesSum;
+    return bytesSum
   }.call(this));
 
+  // Biggest language by number bytes
   this._languageBiggestBytes = (function () {
     let languageBiggestBytes = {
       name: '',
@@ -185,13 +204,14 @@ function Organisation (xhttpResponse) {
         languageBiggestBytes = {
           name: languageName,
           nbrBytes: this._languagesBytesSum[languageName]
-        };
+        }
       }
     }
 
-    return languageBiggestBytes;
+    return languageBiggestBytes
   }.call(this));
 
+  // Smallest language by number bytes
   this._languageSmallestBytes = (function () {
     let languageSmallestMin = this._languageBiggestBytes;
 
@@ -200,12 +220,12 @@ function Organisation (xhttpResponse) {
         languageSmallestMin = {
           name: languageName,
           nbrBytes: this._languagesBytesSum[languageName]
-        };
+        }
       }
     }
 
-    return languageSmallestMin;
-  }.call(this));
+    return languageSmallestMin
+  }.call(this))
 }
 
 // eslint-disable-next-line no-extend-native
@@ -214,9 +234,9 @@ Array.prototype.contains = function (obj) {
 
   while (i--) {
     if (this[i] === obj) {
-      return true;
+      return true
     }
   }
 
-  return false;
+  return false
 };

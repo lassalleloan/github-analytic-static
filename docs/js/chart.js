@@ -44,7 +44,7 @@ function BarChartStacked (xAxesLabel, xAxesData, yAxesLabel, data) {
     new Chart(document.getElementById(context).getContext('2d'), this.barChartStacked)
   };
 
-  // Return random colors array
+  // Gets random colors array
   let getRandomColors = function (size) {
     let randomColors = [];
 
@@ -56,6 +56,7 @@ function BarChartStacked (xAxesLabel, xAxesData, yAxesLabel, data) {
     return randomColors
   };
 
+  // Gets datasets
   let getDatasets = function (yAxesDataLabels, yAxesData) {
     let datasets = [];
     let colors = getRandomColors(yAxesDataLabels.length);
