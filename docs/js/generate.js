@@ -32,7 +32,13 @@ function changeOrganizationName (organizationLogin) {
     xhttp.onreadystatechange = () => {
       if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
         if (xhttp.responseText === '/ready') {
-          setTimeout(function () {
+          // Gets organization json
+          xhttp.open('GET', 'data/organization.json');
+          xhttp.responseType = 'json';
+          xhttp.send();
+
+          // Callback function when the state is changed
+          xhttp.onreadystatechange = () => {
             // Gets organization json
             xhttp.open('GET', 'data/organization.json');
             xhttp.responseType = 'json';
@@ -54,7 +60,7 @@ function changeOrganizationName (organizationLogin) {
                 generateTable(organization);
               }
             }
-          }, 5000);
+          }
         } else {
           // eslint-disable-next-line no-undef
           document.getElementById('p-message').innerHTML = 'The chosen organization does not exist';
