@@ -28,7 +28,8 @@ If you want to change the source of the data, please update line 18 in the "gene
 The data of the client and fetching is formatted in a certain way. You can't change the format if you want the client to work "out of the box".
 
 Here is how the JSON file is structured :
-`
+
+```
 {
   "login": "QubesOS",
   "name": "Qubes OS Project",
@@ -66,4 +67,4 @@ Here is how the JSON file is structured :
 
   ]
 }
-`
+```
