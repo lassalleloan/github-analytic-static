@@ -8,31 +8,15 @@
 /* eslint-disable semi */
 
 /**
- * Clears elements of html for insert chart and table
- */
-function clearHtml () {
-  // Remove old message
-  // eslint-disable-next-line no-undef
-  document.getElementById('p-message').innerHTML = '';
-
-  // Remove old canvas and add a new one
-  // eslint-disable-next-line no-undef
-  // $('#canvas-bar-chart').remove();
-  // eslint-disable-next-line no-undef
-  // $('#div-bar-chart').append('<canvas id="canvas-bar-chart"><canvas>');
-  document.getElementById('canvas-bar-chart').innerHTML = '';
-
-  document.getElementById('div-infos').innerHTML = '';
-}
-
-/**
  * Generates a chart and a table in function of oragnization login
  *
  * @param organizationLogin organization login
  */
 // eslint-disable-next-line no-unused-vars
 function changeOrganizationName (organizationLogin) {
-  clearHtml();
+  document.getElementById('p-message').innerHTML = '';
+  document.getElementById('canvas-bar-chart').innerHTML = '';
+  document.getElementById('div-infos').innerHTML = '';
 
   if (organizationLogin.length > 0) {
     /* global XMLHttpRequest */
@@ -46,9 +30,6 @@ function changeOrganizationName (organizationLogin) {
 
     // Callback function when the state is changed
     xhttp.onreadystatechange = () => {
-      // eslint-disable-next-line no-undef
-      document.getElementById('p-message').innerHTML = '';
-
       if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
         if (xhttp.responseText === '/ready') {
           setTimeout(function () {
@@ -60,6 +41,8 @@ function changeOrganizationName (organizationLogin) {
             // Callback function when the state is changed
             xhttp.onreadystatechange = () => {
               if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
+                document.getElementById('p-message').innerHTML = '';
+
                 // Gets back organization
                 // eslint-disable-next-line
                 const organization = new Organization(xhttp.response);
@@ -71,7 +54,7 @@ function changeOrganizationName (organizationLogin) {
                 generateTable(organization);
               }
             }
-          }, 2000);
+          }, 5000);
         } else {
           // eslint-disable-next-line no-undef
           document.getElementById('p-message').innerHTML = 'The chosen organization does not exist';
