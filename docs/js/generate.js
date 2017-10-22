@@ -51,7 +51,8 @@ function changeOrganizationName (organizationLogin) {
       if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
         if (xhttp.responseText === '/ready') {
           // Gets organization json
-          xhttp.open('GET', '../data/organization.json');
+          //xhttp.open('GET', '../data/organization.json');
+          xhttp.open('GET', '../../my-data-file.json');
           xhttp.responseType = 'json';
           xhttp.send();
 
