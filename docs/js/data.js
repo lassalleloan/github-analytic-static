@@ -258,25 +258,37 @@ function Organization (xhttpResponse) {
   }.call(this))
 
   this._summary = (function () {
-    const summary = {};
+    const summaryUnordered = {};
 
-    summary['Organization Name'] = this._name;
+    summaryUnordered['Organization Name'] = this._name;
 
     if (this._description.length > 0) {
-      summary['Description'] = this._description;
+      summaryUnordered['Description'] = this._description;
     }
 
-    summary['Created at'] = this._createdAt;
-    summary['Number of repos'] = this._reposLength;
-    summary['Number of languages'] = this._languagesNameLength;
+    summaryUnordered['Created at'] = this._createdAt;
+    summaryUnordered['Number of repos'] = this._reposLength;
+    summaryUnordered['Number of languages'] = this._languagesNameLength;
 
     const minimumBytesFor = 'Minimum of bytes for ' + this._languageSmallestBytes.name;
-    summary[minimumBytesFor] = this._languagesNameLength;
+    summaryUnordered[minimumBytesFor] = this._languagesNameLength;
 
     const maximumBytesFor = 'Maximum of bytes for ' + this._languageSmallestBytes.name;
-    summary[maximumBytesFor] = this._languagesNameLength;
+    summaryUnordered[maximumBytesFor] = this._languagesNameLength;
 
-    return JSON.stringify(summary);
+    const arr = [];
+    for (const key in summaryUnordered) {
+      arr.push(key);
+    }
+
+    arr.sort();
+
+    let summaryOrdered = {};
+    for (const key in arr) {
+      summaryOrdered[key] = summaryUnordered[key];
+    }
+
+    return summaryOrdered;
   }.call(this))
 }
 
