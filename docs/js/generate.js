@@ -100,7 +100,7 @@ function refresh (organizationLogin) {
       if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
         // Gets back organization
         // eslint-disable-next-line
-        const organization = new Organization(xhttp1.response);
+        const organization = new Organization(xhttp.response);
 
         // eslint-disable-next-line
         const barChartStacked = new BarChartStacked('Name of repos', organization._reposName, 'Number of bytes', organization._languagesBytes);
