@@ -276,19 +276,7 @@ function Organization (xhttpResponse) {
     const maximumBytesFor = 'Maximum of bytes for ' + this._languageSmallestBytes.name;
     summaryUnordered[maximumBytesFor] = this._languagesNameLength;
 
-    const arr = [];
-    for (const key in summaryUnordered) {
-      arr.push(key);
-    }
-
-    arr.sort();
-
-    let summaryOrdered = {};
-    for (const key in arr) {
-      summaryOrdered[key] = summaryUnordered[key];
-    }
-
-    return summaryOrdered;
+    return summaryUnordered;
   }.call(this))
 }
 

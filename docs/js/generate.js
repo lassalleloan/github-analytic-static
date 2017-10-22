@@ -93,10 +93,7 @@ function generateTable (organization) {
   table.className = 'table';
   divTable.appendChild(table);
 
-  console.log(organization._summary);
-
   for (const key in organization._summary) {
-
     if (organization._summary.hasOwnProperty(key)) {
       const tr1 = table.appendChild(document.createElement('tr'));
       tr1.appendChild(document.createElement('td')).appendChild(document.createTextNode(key));
@@ -131,16 +128,8 @@ function generateTable (organization) {
   // </tr>
 
   for (const languageName of organization._languagesName) {
-    // <tr>
-    const tr8 = table.appendChild(document.createElement('tr'));
-    // <td>
-    tr8.appendChild(document.createElement('td')).appendChild(document.createTextNode('Number of bytes of ' + languageName));
-    // </td>
-    // <td>
-    tr8.appendChild(document.createElement('td')).appendChild(document.createTextNode(organization._languagesBytesSum[languageName]));
-    // </td>
-    // </tr>
+    const tr = table.appendChild(document.createElement('tr'));
+    tr.appendChild(document.createElement('td')).appendChild(document.createTextNode('Number of bytes of ' + languageName));
+    tr.appendChild(document.createElement('td')).appendChild(document.createTextNode(organization._languagesBytesSum[languageName]));
   }
-
-  // </table>
 }
