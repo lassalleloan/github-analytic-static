@@ -16,10 +16,8 @@ function clearHtml () {
   document.getElementById('p-message').innerHTML = '';
 
   // Remove old canvas and add a new one
-  // eslint-disable-next-line no-undef
-  $('#canvas-bar-chart').remove();
-  // eslint-disable-next-line no-undef
-  $('#div-bar-chart').append('<canvas id="canvas-bar-chart"><canvas>');
+  document.getElementById('canvas-bar-chart').remove();
+  document.getElementById('div-bar-chart').append('<canvas id="canvas-bar-chart"><canvas>');
 
   document.getElementById('div-infos').innerHTML = '';
 }
