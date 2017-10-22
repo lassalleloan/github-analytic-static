@@ -38,80 +38,34 @@ function changeOrganizationName (organizationLogin) {
     xhttp.onreadystatechange = () => {
       if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
         if (xhttp.responseText === '/ready') {
-          setTimeout(function () {
-            // Gets organization json
-            const xhttp1 = new XMLHttpRequest();
-            xhttp1.open('GET', 'data/organization.json');
-            xhttp1.responseType = 'json';
-            xhttp1.send();
+          // Gets organization json
+          const xhttp1 = new XMLHttpRequest();
+          xhttp1.open('GET', 'https://raw.githubusercontent.com/lassalleloan/githubAnalytic-static/master/docs/data/organization.json');
+          xhttp1.responseType = 'json';
+          xhttp1.send();
 
-            // Callback function when the state is changed
-            xhttp1.onreadystatechange = () => {
-              if (xhttp1.readyState === XMLHttpRequest.DONE && xhttp1.status === 200) {
-                document.getElementById('p-message').innerHTML = '';
+          // Callback function when the state is changed
+          xhttp1.onreadystatechange = () => {
+            if (xhttp1.readyState === XMLHttpRequest.DONE && xhttp1.status === 200) {
+              document.getElementById('p-message').innerHTML = '';
 
-                // Gets back organization
-                // eslint-disable-next-line
+              // Gets back organization
+              // eslint-disable-next-line
                 const organization = new Organization(xhttp1.response);
 
-                // eslint-disable-next-line
-                const barChartStacked = new BarChartStacked('Name of repos', organization._reposName, 'Number of bytes', organization._languagesBytes);
-                barChartStacked.addToContext('canvas-bar-chart');
+              // eslint-disable-next-line
+              const barChartStacked = new BarChartStacked('Name of repos', organization._reposName, 'Number of bytes', organization._languagesBytes);
+              barChartStacked.addToContext('canvas-bar-chart');
 
-                generateTable(organization);
-              }
+              generateTable(organization);
             }
-          }, 10000);
+          }
         } else {
           // eslint-disable-next-line no-undef
           document.getElementById('p-message').innerHTML = 'The chosen organization does not exist';
         }
       }
     }
-  }
-}
-
-/**
- *
- *
- * @param organizationLogin organization login
- */
-// eslint-disable-next-line no-unused-vars
-function refresh (organizationLogin) {
-  document.getElementById('p-message').innerHTML = '';
-
-  // Remove old canvas and add a new one
-  // eslint-disable-next-line no-undef
-  $('#canvas-bar-chart').remove();
-  // eslint-disable-next-line no-undef
-  $('#div-bar-chart').append('<canvas id="canvas-bar-chart"><canvas>');
-
-  document.getElementById('div-infos').innerHTML = '';
-
-  if (organizationLogin.length > 0) {
-    // Gets organization json
-    const xhttp = new XMLHttpRequest();
-    xhttp.open('GET', 'data/organization.json');
-    xhttp.responseType = 'json';
-    xhttp.send();
-
-    // Callback function when the state is changed
-    xhttp.onreadystatechange = () => {
-      if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
-        // Gets back organization
-        // eslint-disable-next-line
-        const organization = new Organization(xhttp.response);
-
-        // eslint-disable-next-line
-        const barChartStacked = new BarChartStacked('Name of repos', organization._reposName, 'Number of bytes', organization._languagesBytes);
-        barChartStacked.addToContext('canvas-bar-chart');
-
-        generateTable(organization);
-      }
-    }
-  } else {
-    // eslint-disable-next-line no-undef
-    document.getElementById('p-message').innerHTML = 'The chosen organization does not exist';
   }
 }
 
@@ -125,44 +79,31 @@ function generateTable (organization) {
   const divTable = document.getElementById('div-infos');
   divTable.innerHTML = '';
 
-  // <table>
   const table = document.createElement('table');
   table.className = 'table';
   divTable.appendChild(table);
 
   for (const key in organization._summary) {
     if (organization._summary.hasOwnProperty(key)) {
-      const tr1 = table.appendChild(document.createElement('tr'));
-      tr1.appendChild(document.createElement('td')).appendChild(document.createTextNode(key));
-      tr1.appendChild(document.createElement('td')).appendChild(document.createTextNode(organization._summary[key]));
+      const tr = table.appendChild(document.createElement('tr'));
+      tr.appendChild(document.createElement('td')).appendChild(document.createTextNode(key));
+      tr.appendChild(document.createElement('td')).appendChild(document.createTextNode(organization._summary[key]));
     }
   }
 
-  // <tr>
-  const tr9 = table.appendChild(document.createElement('tr'));
-  // <td>
-  tr9.appendChild(document.createElement('td')).appendChild(document.createTextNode('Smallest repo'));
-  // </td>
-  // <td>
-  const aTag = document.createElement('a');
-  aTag.setAttribute('href', organization._repoSmallestBytes.html_url);
-  aTag.innerHTML = organization._repoSmallestBytes.name;
-  tr9.appendChild(document.createElement('td')).appendChild(aTag);
-  // </td>
-  // </tr>
+  const tr = table.appendChild(document.createElement('tr'));
+  const a = document.createElement('a');
+  tr.appendChild(document.createElement('td')).appendChild(document.createTextNode('Smallest repo'));
+  a.setAttribute('href', organization._repoSmallestBytes.html_url);
+  a.innerHTML = organization._repoSmallestBytes.name;
+  tr.appendChild(document.createElement('td')).appendChild(a);
 
-  // <tr>
-  const tr10 = table.appendChild(document.createElement('tr'));
-  // <td>
-  tr10.appendChild(document.createElement('td')).appendChild(document.createTextNode('Biggest repo'));
-  // </td>
-  // <td>
-  const aTag2 = document.createElement('a');
-  aTag2.setAttribute('href', organization._repoBiggestBytes.html_url);
-  aTag2.innerHTML = organization._repoBiggestBytes.name;
-  tr10.appendChild(document.createElement('td')).appendChild(aTag2);
-  // </td>
-  // </tr>
+  const tr2 = table.appendChild(document.createElement('tr'));
+  const a2 = document.createElement('a');
+  tr2.appendChild(document.createElement('td')).appendChild(document.createTextNode('Biggest repo'));
+  tr2.appendChild(document.createElement('td')).appendChild(a2);
+  a2.setAttribute('href', organization._repoBiggestBytes.html_url);
+  a2.innerHTML = organization._repoBiggestBytes.name;
 
   for (const languageName of organization._languagesName) {
     const tr = table.appendChild(document.createElement('tr'));
