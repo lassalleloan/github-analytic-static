@@ -16,8 +16,10 @@ function clearHtml () {
   document.getElementById('p-message').innerHTML = '';
 
   // Remove old canvas and add a new one
-  document.getElementById('canvas-bar-chart').remove();
-  document.getElementById('div-bar-chart').append('<canvas id="canvas-bar-chart"><canvas>');
+  // eslint-disable-next-line no-undef
+  $('#canvas-bar-chart').remove();
+  // eslint-disable-next-line no-undef
+  $('#div-bar-chart').append('<canvas id="canvas-bar-chart"><canvas>');
 
   document.getElementById('div-infos').innerHTML = '';
 }
@@ -94,6 +96,7 @@ function generateTable (organization) {
   console.log(organization._summary);
 
   for (const key in organization._summary) {
+
     if (organization._summary.hasOwnProperty(key)) {
       const tr1 = table.appendChild(document.createElement('tr'));
       tr1.appendChild(document.createElement('td')).appendChild(document.createTextNode(key));
