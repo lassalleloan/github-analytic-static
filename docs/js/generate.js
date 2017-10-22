@@ -15,7 +15,13 @@
 // eslint-disable-next-line no-unused-vars
 function changeOrganizationName (organizationLogin) {
   document.getElementById('p-message').innerHTML = '';
-  document.getElementById('canvas-bar-chart').innerHTML = '';
+
+  // Remove old canvas and add a new one
+  // eslint-disable-next-line no-undef
+  $('#canvas-bar-chart').remove();
+  // eslint-disable-next-line no-undef
+  $('#div-bar-chart').append('<canvas id="canvas-bar-chart"><canvas>');
+
   document.getElementById('div-infos').innerHTML = '';
 
   if (organizationLogin.length > 0) {
@@ -62,6 +68,50 @@ function changeOrganizationName (organizationLogin) {
         }
       }
     }
+  }
+}
+
+/**
+ *
+ *
+ * @param organizationLogin organization login
+ */
+// eslint-disable-next-line no-unused-vars
+function refresh (organizationLogin) {
+  document.getElementById('p-message').innerHTML = '';
+
+  // Remove old canvas and add a new one
+  // eslint-disable-next-line no-undef
+  $('#canvas-bar-chart').remove();
+  // eslint-disable-next-line no-undef
+  $('#div-bar-chart').append('<canvas id="canvas-bar-chart"><canvas>');
+
+  document.getElementById('div-infos').innerHTML = '';
+
+  if (organizationLogin.length > 0) {
+    // Gets organization json
+    const xhttp = new XMLHttpRequest();
+    xhttp.open('GET', 'data/organization.json');
+    xhttp.responseType = 'json';
+    xhttp.send();
+
+    // Callback function when the state is changed
+    xhttp.onreadystatechange = () => {
+      if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
+        // Gets back organization
+        // eslint-disable-next-line
+        const organization = new Organization(xhttp1.response);
+
+        // eslint-disable-next-line
+        const barChartStacked = new BarChartStacked('Name of repos', organization._reposName, 'Number of bytes', organization._languagesBytes);
+        barChartStacked.addToContext('canvas-bar-chart');
+
+        generateTable(organization);
+      }
+    }
+  } else {
+    // eslint-disable-next-line no-undef
+    document.getElementById('p-message').innerHTML = 'The chosen organization does not exist';
   }
 }
 
