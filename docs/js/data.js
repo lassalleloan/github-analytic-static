@@ -258,25 +258,25 @@ function Organization (xhttpResponse) {
   }.call(this))
 
   this._summary = (function () {
-    const summaryUnordered = {};
+    const summary = {};
 
-    summaryUnordered['Organization Name'] = this._name;
+    summary['Organization Name'] = this._name;
 
     if (this._description.length > 0) {
-      summaryUnordered['Description'] = this._description;
+      summary['Description'] = this._description;
     }
 
-    summaryUnordered['Created at'] = this._createdAt;
-    summaryUnordered['Number of repos'] = this._reposLength;
-    summaryUnordered['Number of languages'] = this._languagesNameLength;
+    summary['Created at'] = this._createdAt;
+    summary['Number of repos'] = this._reposLength;
+    summary['Number of languages'] = this._languagesNameLength;
 
     const minimumBytesFor = 'Minimum of bytes for ' + this._languageSmallestBytes.name;
-    summaryUnordered[minimumBytesFor] = this._languagesNameLength;
+    summary[minimumBytesFor] = this._languagesNameLength;
 
     const maximumBytesFor = 'Maximum of bytes for ' + this._languageSmallestBytes.name;
-    summaryUnordered[maximumBytesFor] = this._languagesNameLength;
+    summary[maximumBytesFor] = this._languagesNameLength;
 
-    return summaryUnordered;
+    return summary;
   }.call(this))
 }
 

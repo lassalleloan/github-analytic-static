@@ -17,9 +17,10 @@ function clearHtml () {
 
   // Remove old canvas and add a new one
   // eslint-disable-next-line no-undef
-  $('#canvas-bar-chart').remove();
+  // $('#canvas-bar-chart').remove();
   // eslint-disable-next-line no-undef
-  $('#div-bar-chart').append('<canvas id="canvas-bar-chart"><canvas>');
+  // $('#div-bar-chart').append('<canvas id="canvas-bar-chart"><canvas>');
+  document.getElementById('canvas-bar-chart').innerHTML = '';
 
   document.getElementById('div-infos').innerHTML = '';
 }
@@ -50,25 +51,27 @@ function changeOrganizationName (organizationLogin) {
 
       if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
         if (xhttp.responseText === '/ready') {
-          // Gets organization json
-          xhttp.open('GET', 'data/organization.json');
-          xhttp.responseType = 'json';
-          xhttp.send();
+          setTimeout(function () {
+            // Gets organization json
+            xhttp.open('GET', 'data/organization.json');
+            xhttp.responseType = 'json';
+            xhttp.send();
 
-          // Callback function when the state is changed
-          xhttp.onreadystatechange = () => {
-            if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
-              // Gets back organization
-              // eslint-disable-next-line
-              const organization = new Organization(xhttp.response);
+            // Callback function when the state is changed
+            xhttp.onreadystatechange = () => {
+              if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
+                // Gets back organization
+                // eslint-disable-next-line
+                const organization = new Organization(xhttp.response);
 
-              // eslint-disable-next-line
-              const barChartStacked = new BarChartStacked('Name of repos', organization._reposName, 'Number of bytes', organization._languagesBytes);
-              barChartStacked.addToContext('canvas-bar-chart');
+                // eslint-disable-next-line
+                const barChartStacked = new BarChartStacked('Name of repos', organization._reposName, 'Number of bytes', organization._languagesBytes);
+                barChartStacked.addToContext('canvas-bar-chart');
 
-              generateTable(organization);
+                generateTable(organization);
+              }
             }
-          }
+          }, 2000);
         } else {
           // eslint-disable-next-line no-undef
           document.getElementById('p-message').innerHTML = 'The chosen organization does not exist';
