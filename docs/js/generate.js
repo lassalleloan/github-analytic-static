@@ -94,7 +94,6 @@ function generateTable (organization) {
   console.log(organization._summary);
 
   for (const key in organization._summary) {
-
     if (organization._summary.hasOwnProperty(key)) {
       const tr1 = table.appendChild(document.createElement('tr'));
       tr1.appendChild(document.createElement('td')).appendChild(document.createTextNode(key));
