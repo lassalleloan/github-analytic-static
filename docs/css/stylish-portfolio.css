@@ -251,6 +251,12 @@ hr.small {
     pointer-events: none;
 }
 
+canvas {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
 
 /* Footer */
 
@@ -265,10 +271,4 @@ footer {
     bottom: 5px;
     display: none;
     padding: 15px 20px;
-}
-
-canvas {
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
 }

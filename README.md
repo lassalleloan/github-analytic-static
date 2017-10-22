@@ -1,4 +1,4 @@
-# TWEB :: GitHub Analytics :: Organisation
+# TWEB :: GitHub Analytics :: Organization
 Authors: Tano Iannetta & Loan Lassalle
 ***
 

@@ -7,6 +7,9 @@
  */
 /* eslint-disable semi */
 
+/**
+ * Clears elements of html for insert chart and table
+ */
 function clearHtml () {
   // Remove old message
   // eslint-disable-next-line no-undef
@@ -21,28 +24,21 @@ function clearHtml () {
   document.getElementById('div-infos').innerHTML = '';
 }
 
+/**
+ * Generates a chart and a table in function of oragnization login
+ *
+ * @param organizationLogin organization login
+ */
 // eslint-disable-next-line no-unused-vars
-function changeOrganisationName (organisationLogin) {
+function changeOrganizationName (organizationLogin) {
   clearHtml();
 
-  if (organisationLogin.length > 0) {
-    // let i = 100;
-    //
-    // const counterBack = setInterval(function () {
-    //   i--;
-    //   if (i > 0) {
-    //     // eslint-disable-next-line no-undef
-    //     $('.progress-bar').css('width', i + '%');
-    //   } else {
-    //     clearInterval(counterBack);
-    //   }
-    // }, 1000);
-
+  if (organizationLogin.length > 0) {
     /* global XMLHttpRequest */
     const xhttp = new XMLHttpRequest();
 
     // Ask the server to generates organization
-    xhttp.open('GET', 'https://infinite-earth-87590.herokuapp.com/agent?repository=githubAnalytic-agent&organization=' + organisationLogin);
+    xhttp.open('GET', 'https://infinite-earth-87590.herokuapp.com/agent?repository=githubAnalytic-agent&organization=' + organizationLogin);
     xhttp.send();
 
     document.getElementById('p-message').innerHTML = 'Wait a minute';
@@ -54,9 +50,8 @@ function changeOrganisationName (organisationLogin) {
 
       if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
         if (xhttp.responseText === '/ready') {
-          // setTimeout(function () {
-          // Gets organization
-          xhttp.open('GET', 'https://raw.githubusercontent.com/galahad1/githubAnalytic-agent/master/my-data-file.json');
+          // Gets organization json
+          xhttp.open('GET', '../data/organization.json');
           xhttp.responseType = 'json';
           xhttp.send();
 
@@ -65,17 +60,15 @@ function changeOrganisationName (organisationLogin) {
             if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
               // Gets back organization
               // eslint-disable-next-line
-              const organization = new Organisation(xhttp.response);
+              const organization = new Organization(xhttp.response);
 
               // eslint-disable-next-line
               const barChartStacked = new BarChartStacked('Name of repos', organization._reposName, 'Number of bytes', organization._languagesBytes);
-
               barChartStacked.addToContext('canvas-bar-chart');
 
               generateTable(organization);
             }
           }
-          // }, 60000);
         } else {
           // eslint-disable-next-line no-undef
           document.getElementById('p-message').innerHTML = 'The chosen organization does not exist';
@@ -85,6 +78,11 @@ function changeOrganisationName (organisationLogin) {
   }
 }
 
+/**
+ * Generates a table of informations of organization
+ *
+ * @param organization organization object
+ */
 // eslint-disable-next-line no-unused-vars
 function generateTable (organization) {
   const divTable = document.getElementById('div-infos');
@@ -93,80 +91,15 @@ function generateTable (organization) {
   // <table>
   const table = document.createElement('table');
   table.className = 'table';
-
   divTable.appendChild(table);
 
-  // <tr>
-  const tr1 = table.appendChild(document.createElement('tr'));
-  // <td>
-  tr1.appendChild(document.createElement('td')).appendChild(document.createTextNode('Organisation Name'));
-  // </td>
-  // <td>
-  tr1.appendChild(document.createElement('td')).appendChild(document.createTextNode(organization._name));
-  // </td>
-  // </tr>
-
-  if (organization._description.length > 0) {
-    // <tr>
-    const tr2 = table.appendChild(document.createElement('tr'));
-    // <td>
-    tr2.appendChild(document.createElement('td')).appendChild(document.createTextNode('Description'));
-    // </td>
-    // <td>
-    tr2.appendChild(document.createElement('td')).appendChild(document.createTextNode(organization._description));
-    // </td>
-    // </tr>
+  for (const key in organization._summary) {
+    if (organization._summary.hasOwnProperty(key)) {
+      const tr1 = table.appendChild(document.createElement('tr'));
+      tr1.appendChild(document.createElement('td')).appendChild(document.createTextNode(key));
+      tr1.appendChild(document.createElement('td')).appendChild(document.createTextNode(organization._summary[key]));
+    }
   }
-
-  // <tr>
-  const tr3 = table.appendChild(document.createElement('tr'));
-  // <td>
-  tr3.appendChild(document.createElement('td')).appendChild(document.createTextNode('Created at'));
-  // </td>
-  // <td>
-  tr3.appendChild(document.createElement('td')).appendChild(document.createTextNode(organization._createdAt));
-  // </td>
-  // </tr>
-
-  // <tr>
-  const tr4 = table.appendChild(document.createElement('tr'));
-  // <td>
-  tr4.appendChild(document.createElement('td')).appendChild(document.createTextNode('Number of repos'));
-  // </td>
-  // <td>
-  tr4.appendChild(document.createElement('td')).appendChild(document.createTextNode(organization._reposLength));
-  // </td>
-  // </tr>
-
-  // <tr>
-  const tr5 = table.appendChild(document.createElement('tr'));
-  // <td>
-  tr5.appendChild(document.createElement('td')).appendChild(document.createTextNode('Number of languages'));
-  // </td>
-  // <td>
-  tr5.appendChild(document.createElement('td')).appendChild(document.createTextNode(organization._languagesNameLength));
-  // </td>
-  // </tr>
-
-  // <tr>
-  const tr6 = table.appendChild(document.createElement('tr'));
-  // <td>
-  tr6.appendChild(document.createElement('td')).appendChild(document.createTextNode('Minimum of bytes for ' + organization._languageSmallestBytes.name));
-  // </td>
-  // <td>
-  tr6.appendChild(document.createElement('td')).appendChild(document.createTextNode(organization._languageSmallestBytes.nbrBytes));
-  // </td>
-  // </tr>
-
-  // <tr>
-  const tr7 = table.appendChild(document.createElement('tr'));
-  // <td>
-  tr7.appendChild(document.createElement('td')).appendChild(document.createTextNode('Maximum of bytes for ' + organization._languageBiggestBytes.name));
-  // </td>
-  // <td>
-  tr7.appendChild(document.createElement('td')).appendChild(document.createTextNode(organization._languageBiggestBytes.nbrBytes));
-  // </td>
-  // </tr>
 
   // <tr>
   const tr9 = table.appendChild(document.createElement('tr'));
