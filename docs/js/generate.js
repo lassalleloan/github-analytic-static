@@ -33,25 +33,27 @@ function changeOrganizationName (organizationLogin) {
       if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
         if (xhttp.responseText === '/ready') {
           // Gets organization json
-          xhttp.open('GET', 'data/organization.json');
-          xhttp.responseType = 'json';
-          xhttp.send();
+          const xhttp1 = new XMLHttpRequest();
+          xhttp1.open('GET', 'data/organization.json');
+          xhttp1.responseType = 'json';
+          xhttp1.send();
 
           // Callback function when the state is changed
-          xhttp.onreadystatechange = () => {
+          xhttp1.onreadystatechange = () => {
             // Gets organization json
-            xhttp.open('GET', 'data/organization.json');
-            xhttp.responseType = 'json';
-            xhttp.send();
+            const xhttp2 = new XMLHttpRequest();
+            xhttp2.open('GET', 'data/organization.json');
+            xhttp2.responseType = 'json';
+            xhttp2.send();
 
             // Callback function when the state is changed
-            xhttp.onreadystatechange = () => {
-              if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
+            xhttp2.onreadystatechange = () => {
+              if (xhttp2.readyState === XMLHttpRequest.DONE && xhttp2.status === 200) {
                 document.getElementById('p-message').innerHTML = '';
 
                 // Gets back organization
                 // eslint-disable-next-line
-                const organization = new Organization(xhttp.response);
+                const organization = new Organization(xhttp2.response);
 
                 // eslint-disable-next-line
                 const barChartStacked = new BarChartStacked('Name of repos', organization._reposName, 'Number of bytes', organization._languagesBytes);
