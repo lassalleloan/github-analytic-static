@@ -40,7 +40,7 @@ function changeOrganizationName (organizationLogin) {
         if (xhttp.responseText === '/ready') {
           // Gets organization json
           const xhttp1 = new XMLHttpRequest();
-          xhttp1.open('GET', 'https://raw.githubusercontent.com/lassalleloan/githubAnalytic-static/master/docs/data/organization.json');
+          xhttp1.open('GET', 'https://raw.githubusercontent.com/lassalleloan/githubAnalytic-static/master/docs/data/' + organizationLogin + '.json');
           xhttp1.responseType = 'json';
           xhttp1.send();
 
