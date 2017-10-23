@@ -19,26 +19,15 @@
 function changeOrganizationName (organizationLogin) {
   clearHtml();
 
-  /**
-   * Url to gets json file of data
-   * @type {string}
-   */
-    // eslint-disable-next-line no-unused-vars
-  let jsonURL = 'https://raw.githubusercontent.com/lassalleloan/githubAnalytic-static/master/docs/data/';
-
-  /**
-   * Url to ask the server to generates json file of data
-   * @type {string}
-   */
-    // eslint-disable-next-line no-unused-vars
-  let agentURL = 'https://infinite-earth-87590.herokuapp.com/agent?repository=githubAnalytic-static&organization=';
-
   if (organizationLogin.length > 0) {
-    jsonURL += organizationLogin + '.json';
-    agentURL += organizationLogin;
+    let jsonURL = 'https://raw.githubusercontent.com/lassalleloan/githubAnalytic-static/master/docs/data/' + organizationLogin + '.json';
+    let agentURL = 'https://infinite-earth-87590.herokuapp.com/agent?repository=githubAnalytic-static&organization=' + organizationLogin;
 
     // Gets organization json
     const xhttp = new XMLHttpRequest();
+    const xhttp2 = new XMLHttpRequest();
+    const xhttp3 = new XMLHttpRequest();
+
     xhttp.open('GET', jsonURL);
     xhttp.responseType = 'json';
     xhttp.send();
@@ -46,31 +35,31 @@ function changeOrganizationName (organizationLogin) {
     xhttp.onreadystatechange = () => {
       if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 404) {
         // Ask the server to generates organization JSON
-        xhttp.open('GET', agentURL);
-        xhttp.send();
+        xhttp2.open('GET', agentURL);
+        xhttp2.send();
 
         document.getElementById('p-message').innerHTML = 'Loading';
-
-        xhttp.onreadystatechange = () => {
-          if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
-            if (xhttp.responseText === '/ready') {
-              // Gets organization json
-              xhttp.open('GET', jsonURL);
-              xhttp.responseType = 'json';
-              xhttp.send();
-
-              xhttp.onreadystatechange = () => {
-                if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
-                  addContent(xhttp.response);
-                }
-              };
-            } else {
-              document.getElementById('p-message').innerHTML = 'The chosen organization does not exist';
-            }
-          }
-        };
       } else if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
         addContent(xhttp.response);
+      }
+    };
+
+    xhttp2.onreadystatechange = () => {
+      if (xhttp2.readyState === XMLHttpRequest.DONE && xhttp2.status === 200) {
+        if (xhttp2.responseText === '/ready') {
+          // Gets organization json
+          xhttp3.open('GET', jsonURL);
+          xhttp3.responseType = 'json';
+          xhttp3.send();
+        } else {
+          document.getElementById('p-message').innerHTML = 'The chosen organization does not exist';
+        }
+      }
+    };
+
+    xhttp3.onreadystatechange = () => {
+      if (xhttp3.readyState === XMLHttpRequest.DONE && xhttp3.status === 200) {
+        addContent(xhttp3.response);
       }
     };
   }
