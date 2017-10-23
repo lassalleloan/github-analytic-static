@@ -255,7 +255,7 @@ function Organization (xhttpResponse) {
     }
 
     return languageSmallestMin
-  }.call(this))
+  }.call(this));
 
   this._summary = (function () {
     const summary = {};
@@ -277,7 +277,7 @@ function Organization (xhttpResponse) {
     summary[maximumBytesFor] = this._languagesNameLength;
 
     return summary;
-  }.call(this))
+  }.call(this));
 }
 
 /**
