@@ -26,10 +26,9 @@ If you want to change the source of the data, please update line 43 in the "gene
 
 ## Note
 We noticed that RawGit service was refreshing files randomly. So, if you choose an organization that is not in the list, you may get a 404 error. This is not the consequence of a code error but optimizing file loading by GitHub.
-`
-According to the FAQ:
-Requests to cdn.rawgit.com are routed through MaxCDN's super fast content delivery network, and are cached permanently the first time they're loaded. This results in the best performance and reduces load on RawGit and on GitHub, but it means that reloading won't fetch new changes from GitHub.
-`
+
+`According to the FAQ:
+Requests to cdn.rawgit.com are routed through MaxCDN's super fast content delivery network, and are cached permanently the first time they're loaded. This results in the best performance and reduces load on RawGit and on GitHub, but it means that reloading won't fetch new changes from GitHub.`
 
 ## Data Format
 
