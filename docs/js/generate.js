@@ -5,7 +5,10 @@
  * @author Loan Lassalle (loan.lassalle@heig-vd.ch)
  * @since 13.09.2017
  */
+
 /* eslint-disable semi */
+
+/* global XMLHttpRequest */
 
 /**
  * Generates a chart and a table in function of oragnization login
@@ -14,6 +17,69 @@
  */
 // eslint-disable-next-line no-unused-vars
 function changeOrganizationName (organizationLogin) {
+  clearHtml();
+
+  /**
+   * Url to gets json file of data
+   * @type {string}
+   */
+    // eslint-disable-next-line no-unused-vars
+  let jsonURL = 'https://raw.githubusercontent.com/lassalleloan/githubAnalytic-static/master/docs/data/';
+
+  /**
+   * Url to ask the server to generates json file of data
+   * @type {string}
+   */
+    // eslint-disable-next-line no-unused-vars
+  let agentURL = 'https://infinite-earth-87590.herokuapp.com/agent?repository=githubAnalytic-static&organization=';
+
+  if (organizationLogin.length > 0) {
+    jsonURL += organizationLogin + '.json';
+    agentURL += organizationLogin;
+
+    // Gets organization json
+    const xhttp = new XMLHttpRequest();
+    xhttp.open('GET', jsonURL);
+    xhttp.responseType = 'json';
+    xhttp.send();
+
+    xhttp.onreadystatechange = () => {
+      if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 404) {
+        // Ask the server to generates organization JSON
+        xhttp.open('GET', agentURL);
+        xhttp.send();
+
+        document.getElementById('p-message').innerHTML = 'Loading';
+
+        xhttp.onreadystatechange = () => {
+          if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
+            if (xhttp.responseText === '/ready') {
+              // Gets organization json
+              xhttp.open('GET', jsonURL);
+              xhttp.responseType = 'json';
+              xhttp.send();
+
+              xhttp.onreadystatechange = () => {
+                if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
+                  addContent(xhttp.response);
+                }
+              };
+            } else {
+              document.getElementById('p-message').innerHTML = 'The chosen organization does not exist';
+            }
+          }
+        };
+      } else if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
+        addContent(xhttp.response);
+      }
+    };
+  }
+}
+
+/**
+ * Clears HTML for insertion of chart and table
+ */
+function clearHtml () {
   document.getElementById('p-message').innerHTML = '';
 
   // Remove old canvas and add a new one
@@ -23,50 +89,27 @@ function changeOrganizationName (organizationLogin) {
   $('#div-bar-chart').append('<canvas id="canvas-bar-chart"><canvas>');
 
   document.getElementById('div-infos').innerHTML = '';
+}
 
-  if (organizationLogin.length > 0) {
-    /* global XMLHttpRequest */
-    const xhttp = new XMLHttpRequest();
+/**
+ * Adds content in HTML
+ *
+ * @param xhttpResponse xhttp response
+ */
+function addContent (xhttpResponse) {
+  document.getElementById('p-message').innerHTML = '';
 
-    // Ask the server to generates organization
-    xhttp.open('GET', 'https://infinite-earth-87590.herokuapp.com/agent?repository=githubAnalytic-static&organization=' + organizationLogin);
-    xhttp.send();
+  // Gets back organization
+  // eslint-disable-next-line
+  const organization = new Organization(xhttpResponse);
 
-    document.getElementById('p-message').innerHTML = 'Wait a minute';
+  // eslint-disable-next-line
+  const barChartStacked = new BarChartStacked('Name of repos', organization._reposName, 'Number of bytes', organization._languagesBytes);
+  barChartStacked.addToContext('canvas-bar-chart');
 
-    // Callback function when the state is changed
-    xhttp.onreadystatechange = () => {
-      if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
-        if (xhttp.responseText === '/ready') {
-          // Gets organization json
-          const xhttp1 = new XMLHttpRequest();
-          xhttp1.open('GET', 'https://raw.githubusercontent.com/lassalleloan/githubAnalytic-static/master/docs/data/' + organizationLogin + '.json');
-          xhttp1.responseType = 'json';
-          xhttp1.send();
+  generateTable(organization);
 
-          // Callback function when the state is changed
-          xhttp1.onreadystatechange = () => {
-            if (xhttp1.readyState === XMLHttpRequest.DONE && xhttp1.status === 200) {
-              document.getElementById('p-message').innerHTML = '';
-
-              // Gets back organization
-              // eslint-disable-next-line
-                const organization = new Organization(xhttp1.response);
-
-              // eslint-disable-next-line
-              const barChartStacked = new BarChartStacked('Name of repos', organization._reposName, 'Number of bytes', organization._languagesBytes);
-              barChartStacked.addToContext('canvas-bar-chart');
-
-              generateTable(organization);
-            }
-          }
-        } else {
-          // eslint-disable-next-line no-undef
-          document.getElementById('p-message').innerHTML = 'The chosen organization does not exist';
-        }
-      }
-    }
-  }
+  document.getElementById('canvas-bar-chart').scrollIntoView();
 }
 
 /**
@@ -74,7 +117,6 @@ function changeOrganizationName (organizationLogin) {
  *
  * @param organization organization object
  */
-// eslint-disable-next-line no-unused-vars
 function generateTable (organization) {
   const divTable = document.getElementById('div-infos');
   divTable.innerHTML = '';

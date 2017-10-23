@@ -19,15 +19,24 @@ In order to use a local client server, you can proceed with the following steps 
 1) Install and run docker
 2) Run bash script docker_run at the root of the repo's folder
 
-The client will still fetch data from [here](https://raw.githubusercontent.com/galahad1/githubAnalytic-agent/master/my-data-file.json "Data")
+The client will still fetch data from [here](https://raw.githubusercontent.com/lassalleloan/githubAnalytic-static/master/docs/data/ "Data")
+Each organization that is requested by the client generates a JSON file.
 
-If you want to change the source of the data, please update line 18 in the "generate.js" file. Make sure to have the appropriate data format.
+If you want to change the source of the data, please update line 43 in the "generate.js" file. Make sure to have the appropriate data format.
+
+#### Note
+We noticed that RawGit service was randomly refreshing the files already loaded.
+
+`
+According to the FAQ:
+Requests to cdn.rawgit.com are routed through MaxCDN's super fast content delivery network, and are cached permanently the first time they're loaded. This results in the best performance and reduces load on RawGit and on GitHub, but it means that reloading won't fetch new changes from GitHub.
+`
 
 ## Data Format
 
 The data of the client and fetching is formatted in a certain way. You can't change the format if you want the client to work "out of the box".
 
-Here is how the JSON file is structured :
+Here is how JSON files are structured :
 
 ```
 {
