@@ -21,7 +21,7 @@ function changeOrganizationName (organizationLogin) {
 
   if (organizationLogin.length > 0) {
     let jsonURL = 'https://raw.githubusercontent.com/lassalleloan/githubAnalytic-static/master/docs/data/' + organizationLogin + '.json';
-    let agentURL = 'https://infinite-earth-87590.herokuapp.com/agent?repository=githubAnalytic-static&organization=' + organizationLogin;
+    let agentURL = 'https://glacial-beach-38619.herokuapp.com/agent?repository=githubAnalytic-static&organization=' + organizationLogin;
 
     // Gets organization json
     const xhttp = new XMLHttpRequest();
