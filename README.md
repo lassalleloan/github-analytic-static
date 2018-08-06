@@ -1,4 +1,4 @@
-# TWEB :: GitHub Analytics :: Organization
+# GitHub Analytics :: Organization
 Authors: Tano Iannetta & Loan Lassalle
 ***
 
@@ -6,7 +6,7 @@ Authors: Tano Iannetta & Loan Lassalle
 The GitHub analytics projects is base on a client and a agent side.
 
 ### Client
-The client side of the project is hosted directly on github via GitHub Pages. You can consult the [website](https://lassalleloan.github.io/githubAnalytic-static/ "GitHub Analytics Static").
+The client side of the project is hosted directly on github via GitHub Pages. You can consult the [website](https://lassalleloan.github.io/github-analytic-static/ "GitHub Analytics Static").
 
 ### Agent
 In the background, an agent working to publish updated data on GitHub for the client. The agent's code is available [here](https://github.com/galahad1/githubAnalytic-agent "GitHub Analytics Agent").
@@ -19,7 +19,7 @@ In order to use a local client server, you can proceed with the following steps 
 1) Install and run docker
 2) Run bash script docker_run at the root of the repo's folder
 
-The client will still fetch data from [here](https://raw.githubusercontent.com/lassalleloan/githubAnalytic-static/master/docs/data/ "Data")
+The client will still fetch data from [here](https://raw.githubusercontent.com/lassalleloan/github-analytic-static/master/docs/data/ "Data")
 Each organization that is requested by the client generates a JSON file.
 
 If you want to change the source of the data, please update line 43 in the "generate.js" file. Make sure to have the appropriate data format.
